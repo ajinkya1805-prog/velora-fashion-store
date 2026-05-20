@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile | VELORA{% endblock %}
+
+{% block content %}
+
+<section class="profile-page">
+
+    <div class="profile-hero">
+        <div>
+            <p class="eyebrow">Your VELORA Space</p>
+            <h1>Profile</h1>
+            <p>Manage your account details, saved styles, and shopping shortcuts.</p>
+        </div>
+    </div>
+
+    <div class="profile-layout">
+
+        <aside class="profile-sidebar">
+
+            <div class="profile-avatar">
+                {{ profile_user.username|slice:":1"|upper }}
+            </div>
+
+            <h2>{{ profile_user.username }}</h2>
+
+            {% if profile_user.email %}
+                <p>{{ profile_user.email }}</p>
+            {% else %}
+                <p>No email added yet</p>
+            {% endif %}
+
+            <div class="profile-stats">
+                <a href="{% url 'cart' %}">
+                    <strong>{{ cart.total_items }}</strong>
+                    <span>Cart Items</span>
+                </a>
+
+                <a href="{% url 'wishlist' %}">
+                    <strong>{{ wishlist_count }}</strong>
+                    <span>Wishlist</span>
+                </a>
+            </div>
+
+            <div class="profile-quick-links">
+                <a href="{% url 'cart' %}">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    My Cart
+                </a>
+
+                <a href="{% url 'wishlist' %}">
+                    <i class="fa-regular fa-heart"></i>
+                    My Wishlist
+                </a>
+
+                <a href="{% url 'new_arrivals' %}">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    New Arrivals
+                </a>
+
+                <a href="{% url 'logout' %}" class="danger-link">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </a>
+            </div>
+
+        </aside>
+
+        <main class="profile-main">
+
+            <div class="profile-card">
+                <div class="profile-card-header">
+                    <div>
+                        <p class="eyebrow">Account Details</p>
+                        <h2>Edit Profile</h2>
+                    </div>
+                </div>
+
+                <form method="post" class="profile-form">
+                    {% csrf_token %}
+
+                    <div class="profile-form-grid">
+                        <div class="profile-field">
+                            <label>Username</label>
+                            <input type="text" value="{{ profile_user.username }}" disabled>
+                            <small>Username cannot be changed.</small>
+                        </div>
+
+                        <div class="profile-field">
+                            <label>Email</label>
+                            <input type="email" name="email" value="{{ profile_user.email }}">
+                        </div>
+
+                        <div class="profile-field">
+                            <label>First Name</label>
+                            <input type="text" name="first_name" value="{{ profile_user.first_name }}">
+                        </div>
+
+                        <div class="profile-field">
+                            <label>Last Name</label>
+                            <input type="text" name="last_name" value="{{ profile_user.last_name }}">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="profile-save-btn">
+                        Save Changes
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div class="profile-card profile-info-card">
+                <p class="eyebrow">Account Note</p>
+                <h2>Shopping Profile</h2>
+                <p>
+                    Your cart and wishlist are connected to this account. Checkout, orders,
+                    and payment will be added later when we build the payment flow.
+                </p>
+            </div>
+
+        </main>
+
+    </div>
+
+</section>
+
+{% endblock %}

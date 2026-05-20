@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}VELORA | Fashion Store{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/category.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'css/listing.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'css/dropdown.css' %}?v=3">
+    <link rel="stylesheet" href="{% static 'css/reviews.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'css/support.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}?v=1">
+</head>
+
+<body>
+
+    <!-- Top Strip -->
+   <div class="top-strip">
+    <p>FREE SHIPPING ON ORDERS OVER ₹999 | EASY RETURNS</p>
+
+    <div>
+        <a href="{% url 'support_page' 'store-locator' %}">Store Locator</a>
+        <a href="{% url 'support_page' 'help' %}">Help</a>
+    </div>
+</div>
+
+    <!-- Navbar -->
+    <header class="navbar">
+
+        <a href="{% url 'home' %}" class="logo">
+            <span>V</span> VELORA
+        </a>
+
+        <nav class="nav-links">
+            <a href="{% url 'new_arrivals' %}">New In</a>
+            <a href="{% url 'category_products' 'women' %}">Women</a>
+            <a href="{% url 'category_products' 'men' %}">Men</a>
+            <a href="{% url 'category_products' 'shoes' %}">Shoes</a>
+            <a href="{% url 'category_products' 'accessories' %}">Accessories</a>
+            <a href="{% url 'sale_products' %}">Sale</a>
+        </nav>
+
+        <div class="nav-actions">
+
+            <!-- Search -->
+            <form class="search-box" method="get" action="{% url 'search' %}">
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ request.GET.q }}"
+                    placeholder="Search for items, brands..."
+                >
+
+                <button type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+
+            <!-- Profile Dropdown -->
+            <div class="profile-dropdown-wrap">
+
+                <button type="button" class="icon-btn profile-toggle" id="profileToggle">
+                    <i class="fa-regular fa-user"></i>
+                </button>
+
+                <div class="profile-dropdown" id="profileDropdown">
+
+                    {% if user.is_authenticated %}
+                        <div class="profile-dropdown-head">
+                            <span class="profile-mini-avatar">
+                                {{ user.username|slice:":1"|upper }}
+                            </span>
+
+                            <div>
+                                <strong>{{ user.username }}</strong>
+                                <small>VELORA Member</small>
+                            </div>
+                        </div>
+
+                        <a href="{% url 'profile' %}">
+                            <i class="fa-regular fa-user"></i>
+                            View Profile
+                        </a>
+
+                        <a href="{% url 'wishlist' %}">
+                            <i class="fa-regular fa-heart"></i>
+                            Wishlist
+                        </a>
+
+                        <a href="{% url 'cart' %}">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            Cart
+                        </a>
+                        {% if user.is_staff %}
+    <a href="{% url 'admin_dashboard' %}">
+        <i class="fa-solid fa-chart-line"></i>
+        Admin Dashboard
+    </a>
+{% endif %}
+
+                        <a href="{% url 'logout' %}" class="logout-link">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            Logout
+                        </a>
+                    {% else %}
+                        <div class="profile-dropdown-head">
+                            <span class="profile-mini-avatar">V</span>
+
+                            <div>
+                                <strong>Welcome</strong>
+                                <small>Login to continue</small>
+                            </div>
+                        </div>
+
+                        <a href="{% url 'login' %}">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            Login
+                        </a>
+
+                        <a href="{% url 'register' %}">
+                            <i class="fa-regular fa-user"></i>
+                            Register
+                        </a>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <!-- Wishlist -->
+            <a href="{% url 'wishlist' %}" class="icon-btn wishlist-icon" title="Wishlist">
+                <i class="fa-regular fa-heart"></i>
+
+                {% if wishlist_count %}
+                    <span>{{ wishlist_count }}</span>
+                {% endif %}
+            </a>
+
+            <!-- Cart -->
+            <a href="{% url 'cart' %}" class="icon-btn cart-icon" title="Cart">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span>{{ cart_count }}</span>
+            </a>
+
+        </div>
+
+    </header>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="messages-wrap">
+            {% for message in messages %}
+                <div class="site-message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Page Content -->
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer class="footer">
+    <div>
+        <h3>VELORA</h3>
+        <p>Modern fashion for everyday confidence.</p>
+    </div>
+
+    <div>
+        <h4>Shop</h4>
+        <a href="{% url 'new_arrivals' %}">New In</a>
+        <a href="{% url 'category_products' 'men' %}">Men</a>
+        <a href="{% url 'category_products' 'women' %}">Women</a>
+        <a href="{% url 'category_products' 'shoes' %}">Shoes</a>
+        <a href="{% url 'category_products' 'accessories' %}">Accessories</a>
+        <a href="{% url 'sale_products' %}">Sale</a>
+    </div>
+
+    <div>
+        <h4>Support</h4>
+        <a href="{% url 'support_page' 'contact' %}">Contact</a>
+        <a href="{% url 'support_page' 'returns' %}">Returns</a>
+        <a href="{% url 'support_page' 'shipping' %}">Shipping</a>
+        <a href="{% url 'support_page' 'faqs' %}">FAQs</a>
+    </div>
+</footer>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

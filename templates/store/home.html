@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}VELORA | Wear Your Confidence{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-content">
+        <p class="eyebrow">New Season Collection</p>
+        <h1>Wear Your <span>Confidence</span></h1>
+        <p>
+            Trendy pieces. Timeless style. Discover fashion made for your everyday glow.
+        </p>
+
+        <div class="hero-buttons">
+            <!-- <a href="#" class="btn primary-btn">Shop New In</a> -->
+            <!-- <a href="#new-in" class="btn primary-btn">Shop New In</a> -->
+             <a href="{% url 'new_arrivals' %}" class="btn primary-btn">Shop New In</a>
+            <a href="#" class="btn secondary-btn">Explore Collections</a>
+        </div>
+    </div>
+
+    <div class="hero-image">
+        <div class="image-card main-fashion-card">
+            <div class="fake-model model-one"></div>
+            <div class="fake-model model-two"></div>
+        </div>
+    </div>
+</section>
+
+<section class="service-strip">
+    <div class="service-card">
+        <i class="fa-solid fa-truck-fast"></i>
+        <div>
+            <h4>Free Shipping</h4>
+            <p>On orders over ₹999</p>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <i class="fa-solid fa-rotate-left"></i>
+        <div>
+            <h4>Easy Returns</h4>
+            <p>7-day return policy</p>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <i class="fa-solid fa-shield-halved"></i>
+        <div>
+            <h4>Secure Payment</h4>
+            <p>Safe checkout</p>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <i class="fa-solid fa-location-dot"></i>
+        <div>
+            <h4>Stores Near You</h4>
+            <p>Find a Velora store</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">Shop by Category</p>
+            <h2>Choose Your Style Lane</h2>
+        </div>
+        <a href="{% url 'new_arrivals' %}">
+    View all <i class="fa-solid fa-arrow-right"></i>
+</a>
+    </div>
+
+    <div class="category-grid">
+    {% for category in categories %}
+        <a href="{% url 'category_products' category.slug %}" class="category-card">
+            {% if category.image %}
+                <div class="category-circle real-category-img">
+                    <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                </div>
+            {% else %}
+                <div class="category-circle women-bg">
+                    <span>{{ category.name|slice:":1" }}</span>
+                </div>
+            {% endif %}
+            <h4>{{ category.name }}</h4>
+        </a>
+    {% empty %}
+        <p>No categories added yet.</p>
+    {% endfor %}
+</div>
+</section>
+
+<!-- <section class="section"> -->
+    <!-- <section class="section" id="new-in"></section>
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">Fresh Styles</p>
+            <h2>New Arrivals</h2>
+        </div>
+        <a href="#">View all <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+  <div class="product-grid">
+
+    {% for product in new_arrivals %}
+        {% include 'store/partials/product_card.html' with product=product %}
+    {% empty %}
+        <div class="empty-products">
+            <div class="empty-icon">
+                <i class="fa-solid fa-shirt"></i>
+            </div>
+
+            <h3>No new arrivals yet</h3>
+            <p>Add products from Django admin and mark them as New Arrival.</p>
+        </div>
+    {% endfor %}
+
+</div>
+</section> -->
+<section class="section" id="new-in">
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">Fresh Styles</p>
+            <h2>New Arrivals</h2>
+        </div>
+
+        <a href="{% url 'new_arrivals' %}">
+            View all <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <div class="product-grid">
+        {% for product in new_arrivals %}
+            {% include 'store/partials/product_card.html' with product=product %}
+        {% empty %}
+            <div class="empty-products">
+                <div class="empty-icon">
+                    <i class="fa-solid fa-shirt"></i>
+                </div>
+
+                <h3>No new arrivals yet</h3>
+                <p>Add products from Django admin and mark them as New Arrival.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+<!-- 
+<section class="promo-grid">
+    <div class="promo-card dark-promo">
+        <p>Students Get</p>
+        <h2>10% Off</h2>
+        <a href="#">Get Discount</a>
+    </div>
+
+    <div class="promo-card light-promo">
+        <p>New Season</p>
+        <h2>New Look</h2>
+        <a href="#">Shop Now</a>
+    </div>
+
+    <div class="promo-card store-promo">
+        <p>Visit Us</p>
+        <h2>In Store</h2>
+        <a href="#">Find Store</a>
+    </div>
+</section> -->
+
+<section class="section" id="collections">
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">Curated Looks</p>
+            <h2>Explore Collections</h2>
+        </div>
+    </div>
+
+    <div class="collection-grid">
+
+        <a href="{% url 'category_products' 'women' %}?occasion=Casual" class="collection-card collection-1">
+            <span class="collection-tag">Daily Wear</span>
+            <h3>The Everyday Edit</h3>
+            <p>Simple, polished pieces for college, errands, brunch, and daily plans.</p>
+            <div class="collection-arrow">
+                Explore <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </a>
+
+        <a href="{% url 'category_products' 'men' %}?occasion=Weekend" class="collection-card collection-2">
+            <span class="collection-tag">Relaxed Fits</span>
+            <h3>Weekend Vibes</h3>
+            <p>Soft layers, clean basics, sneakers, and easy outfits for off-duty days.</p>
+            <div class="collection-arrow">
+                Explore <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </a>
+
+        <a href="{% url 'category_products' 'women' %}?occasion=Party" class="collection-card collection-3">
+            <span class="collection-tag">Evening Looks</span>
+            <h3>Date Night</h3>
+            <p>Sharp silhouettes, darker tones, dresses, shirts, and statement pieces.</p>
+            <div class="collection-arrow">
+                Explore <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </a>
+
+        <a href="{% url 'category_products' 'men' %}?occasion=Formal" class="collection-card collection-4">
+            <span class="collection-tag">Workwear</span>
+            <h3>Power Fits</h3>
+            <p>Office-ready shirts, trousers, blazers, formal shoes, and clean classics.</p>
+            <div class="collection-arrow">
+                Explore <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}

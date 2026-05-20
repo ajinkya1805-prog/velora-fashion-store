@@ -1,0 +1,40 @@
+<div class="product-card product-card-shell">
+
+    <form method="post" action="{% url 'toggle_wishlist' product.id %}" class="wishlist-card-form">
+        {% csrf_token %}
+
+        <button type="submit" class="wishlist-btn {% if product.id in wishlist_product_ids %}active-wishlist{% endif %}">
+            {% if product.id in wishlist_product_ids %}
+                <i class="fa-solid fa-heart"></i>
+            {% else %}
+                <i class="fa-regular fa-heart"></i>
+            {% endif %}
+        </button>
+    </form>
+
+    <a href="{% url 'product_detail' product.slug %}" class="product-card-link">
+        <div class="product-image real-product-img">
+            <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
+        </div>
+
+        <h3>{{ product.name }}</h3>
+
+        <p>
+            {% if product.brand %}
+                {{ product.brand }}
+            {% else %}
+                {{ product.category.name }}
+            {% endif %}
+        </p>
+
+        <div class="price-row">
+            {% if product.discount_price %}
+                <strong>₹{{ product.discount_price }}</strong>
+                <span>₹{{ product.price }}</span>
+            {% else %}
+                <strong>₹{{ product.price }}</strong>
+            {% endif %}
+        </div>
+    </a>
+
+</div>

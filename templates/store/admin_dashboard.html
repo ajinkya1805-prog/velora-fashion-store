@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard | VELORA{% endblock %}
+
+{% block content %}
+
+<section class="admin-dashboard-page">
+
+    <div class="admin-dashboard-hero">
+        <div>
+            <p class="eyebrow">VELORA Control Room</p>
+            <h1>Admin Dashboard</h1>
+            <p>Track products, users, carts, wishlist activity, reviews, and stock health.</p>
+        </div>
+
+        <a href="/admin/" class="admin-main-btn">
+            Open Django Admin
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <div class="admin-stat-grid">
+
+    <a href="{% url 'admin_dashboard_data' 'users' %}" class="admin-stat-card">
+        <i class="fa-solid fa-users"></i>
+        <span>Total Users</span>
+        <strong>{{ total_users }}</strong>
+    </a>
+
+    <a href="{% url 'admin_dashboard_data' 'products' %}" class="admin-stat-card">
+        <i class="fa-solid fa-shirt"></i>
+        <span>Total Products</span>
+        <strong>{{ total_products }}</strong>
+    </a>
+
+    <a href="{% url 'admin_dashboard_data' 'categories' %}" class="admin-stat-card">
+        <i class="fa-solid fa-layer-group"></i>
+        <span>Categories</span>
+        <strong>{{ total_categories }}</strong>
+    </a>
+
+    <a href="{% url 'admin_dashboard_data' 'stock' %}" class="admin-stat-card">
+        <i class="fa-solid fa-boxes-stacked"></i>
+        <span>Total Stock</span>
+        <strong>{{ total_stock }}</strong>
+    </a>
+
+    <a href="{% url 'admin_dashboard_data' 'carts' %}" class="admin-stat-card">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span>Carts</span>
+        <strong>{{ total_carts }}</strong>
+    </a>
+
+    <a href="{% url 'admin_dashboard_data' 'cart-items' %}" class="admin-stat-card">
+        <i class="fa-solid fa-cart-flatbed"></i>
+        <span>Cart Items</span>
+        <strong>{{ total_cart_items }}</strong>
+    </a>
+
+    <a href="{% url 'admin_dashboard_data' 'wishlist' %}" class="admin-stat-card">
+        <i class="fa-regular fa-heart"></i>
+        <span>Wishlist Items</span>
+        <strong>{{ total_wishlist_items }}</strong>
+    </a>
+
+    <a href="{% url 'admin_dashboard_data' 'reviews' %}" class="admin-stat-card">
+        <i class="fa-regular fa-star"></i>
+        <span>Reviews</span>
+        <strong>{{ total_reviews }}</strong>
+    </a>
+
+</div>
+
+    <div class="admin-panels-grid">
+
+        <div class="admin-panel">
+            <div class="admin-panel-header">
+                <div>
+                    <p class="eyebrow">Inventory Watch</p>
+                    <h2>Low Stock Products</h2>
+                </div>
+                <span>{{ low_stock_variants.count }}</span>
+            </div>
+
+            <div class="admin-table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Size</th>
+                            <th>Color</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for variant in low_stock_variants %}
+                            <tr>
+                                <td>{{ variant.product.name }}</td>
+                                <td>
+                                    {% if variant.size %}
+                                        {{ variant.size.name }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>{{ variant.color|default:"-" }}</td>
+                                <td><strong class="warning-text">{{ variant.stock }}</strong></td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4">No low stock products.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="admin-panel">
+            <div class="admin-panel-header">
+                <div>
+                    <p class="eyebrow">Inventory Alert</p>
+                    <h2>Out of Stock</h2>
+                </div>
+                <span>{{ out_of_stock_variants.count }}</span>
+            </div>
+
+            <div class="admin-table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Size</th>
+                            <th>Color</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for variant in out_of_stock_variants %}
+                            <tr>
+                                <td>{{ variant.product.name }}</td>
+                                <td>
+                                    {% if variant.size %}
+                                        {{ variant.size.name }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>{{ variant.color|default:"-" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="3">No out of stock products.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="admin-panels-grid three-grid">
+
+        <div class="admin-panel">
+            <div class="admin-panel-header">
+                <div>
+                    <p class="eyebrow">Recently Added</p>
+                    <h2>Products</h2>
+                </div>
+            </div>
+
+            <div class="admin-list">
+                {% for product in recent_products %}
+                    <div class="admin-list-item">
+                        <div>
+                            <strong>{{ product.name }}</strong>
+                            <span>{{ product.category.name }}{% if product.subcategory %} / {{ product.subcategory.name }}{% endif %}</span>
+                        </div>
+                        <small>₹{{ product.selling_price }}</small>
+                    </div>
+                {% empty %}
+                    <p>No products yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="admin-panel">
+            <div class="admin-panel-header">
+                <div>
+                    <p class="eyebrow">Cart Activity</p>
+                    <h2>Recent Carts</h2>
+                </div>
+            </div>
+
+            <div class="admin-list">
+                {% for cart in recent_carts %}
+                    <div class="admin-list-item">
+                        <div>
+                            <strong>{{ cart.user.username }}</strong>
+                            <span>{{ cart.total_items }} item{% if cart.total_items != 1 %}s{% endif %}</span>
+                        </div>
+                        <small>₹{{ cart.total_price }}</small>
+                    </div>
+                {% empty %}
+                    <p>No carts yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="admin-panel">
+            <div class="admin-panel-header">
+                <div>
+                    <p class="eyebrow">Customer Voice</p>
+                    <h2>Recent Reviews</h2>
+                </div>
+            </div>
+
+            <div class="admin-list">
+                {% for review in recent_reviews %}
+                    <div class="admin-list-item">
+                        <div>
+                            <strong>{{ review.product.name }}</strong>
+                            <span>{{ review.user.username }} gave {{ review.rating }} stars</span>
+                        </div>
+                        <small>{{ review.created_at|date:"d M" }}</small>
+                    </div>
+                {% empty %}
+                    <p>No reviews yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

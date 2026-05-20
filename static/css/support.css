@@ -1,0 +1,311 @@
+/* ================================
+   VELORA SUPPORT PAGES
+================================ */
+
+.support-hero {
+    min-height: 320px;
+    padding: 78px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background:
+        radial-gradient(circle at 82% 20%, rgba(184,149,107,0.25), transparent 32%),
+        linear-gradient(120deg, #f7f0e8, #ffffff 52%, #eadfd2);
+}
+
+.support-hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 76px;
+    line-height: 0.95;
+    margin-bottom: 14px;
+}
+
+.support-hero p:not(.eyebrow) {
+    color: #555;
+    max-width: 580px;
+    line-height: 1.8;
+}
+
+.support-hero-icon {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: #111;
+    color: white;
+    display: grid;
+    place-items: center;
+    font-size: 46px;
+    box-shadow: 0 28px 70px rgba(0,0,0,0.2);
+}
+
+.support-page {
+    padding: 50px 7% 85px;
+    background: #f7f3ef;
+    min-height: 620px;
+}
+
+.support-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 28px;
+    align-items: start;
+}
+
+.support-card {
+    background: rgba(255,255,255,0.96);
+    border: 1px solid rgba(184,149,107,0.16);
+    border-radius: 34px;
+    padding: 34px;
+    box-shadow: 0 24px 65px rgba(0,0,0,0.08);
+}
+
+.support-card h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 46px;
+    line-height: 1;
+    margin-bottom: 22px;
+}
+
+.support-form {
+    display: grid;
+    gap: 18px;
+}
+
+.support-field {
+    display: grid;
+    gap: 8px;
+}
+
+.support-field label {
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.support-field input,
+.support-field textarea {
+    width: 100%;
+    border: 1px solid #e4d6c8;
+    border-radius: 17px;
+    background: #fffaf5;
+    padding: 14px;
+    font-family: 'Sora', sans-serif;
+    outline: none;
+    transition: 0.35s ease;
+}
+
+.support-field input {
+    height: 50px;
+}
+
+.support-field textarea {
+    resize: vertical;
+}
+
+.support-field input:focus,
+.support-field textarea:focus {
+    border-color: #b8956b;
+    background: white;
+    box-shadow: 0 14px 34px rgba(184,149,107,0.2);
+}
+
+.support-btn {
+    width: fit-content;
+    height: 52px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 999px;
+    background: #080808;
+    color: white;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.35s ease;
+}
+
+.support-btn:hover {
+    background: #8b6f52;
+    transform: translateY(-4px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.2);
+}
+
+.support-info-list {
+    display: grid;
+    gap: 18px;
+}
+
+.support-info-list div:not(:first-child) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #555;
+}
+
+.support-info-list i {
+    color: #8b6f52;
+}
+
+.policy-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.policy-grid div,
+.policy-grid a {
+    background: #fffaf5;
+    border: 1px solid #eadfd2;
+    border-radius: 24px;
+    padding: 22px;
+    color: #111;
+    transition: 0.35s ease;
+}
+
+.policy-grid div:hover,
+.policy-grid a:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+}
+
+.policy-grid h3 {
+    margin-bottom: 8px;
+}
+
+.policy-grid p {
+    color: #666;
+    line-height: 1.7;
+}
+
+.faq-list {
+    display: grid;
+    gap: 14px;
+}
+
+.faq-list details {
+    background: #fffaf5;
+    border: 1px solid #eadfd2;
+    border-radius: 22px;
+    padding: 18px 20px;
+}
+
+.faq-list summary {
+    cursor: pointer;
+    font-weight: 900;
+}
+
+.faq-list p {
+    color: #666;
+    line-height: 1.7;
+    margin-top: 12px;
+}
+
+.store-locator-box {
+    text-align: center;
+    background: #fffaf5;
+    border: 1px solid #eadfd2;
+    border-radius: 28px;
+    padding: 45px;
+}
+
+.store-locator-box i {
+    font-size: 46px;
+    color: #8b6f52;
+    margin-bottom: 18px;
+}
+
+.store-locator-box h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.store-locator-box p {
+    color: #666;
+    line-height: 1.8;
+}
+
+@media (max-width: 900px) {
+    .support-layout,
+    .policy-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .support-hero-icon {
+        display: none;
+    }
+}
+
+@media (max-width: 650px) {
+    .support-hero {
+        padding: 55px 5%;
+        min-height: 240px;
+    }
+
+    .support-hero h1 {
+        font-size: 52px;
+    }
+
+    .support-page {
+        padding: 35px 5% 65px;
+    }
+
+    .support-card {
+        padding: 26px;
+    }
+}
+
+.container {
+    width: min(100% - 48px, 1640px);
+    margin: 0 auto;
+}
+
+.new-arrivals-section {
+    padding: 70px 0 80px;
+    background: #f7f3ef;
+}
+
+.section-heading {
+    margin-bottom: 30px;
+}
+
+.section-kicker {
+    margin: 0 0 12px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9c7a53;
+}
+
+.section-heading-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.section-title {
+    margin: 0;
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 600;
+    line-height: 0.95;
+    color: #171311;
+}
+
+.view-all-link {
+    color: #111;
+    text-decoration: none;
+    font-weight: 800;
+    transition: 0.3s ease;
+}
+
+.view-all-link:hover {
+    transform: translateX(4px);
+    opacity: 0.7;
+}

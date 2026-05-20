@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register | VELORA{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+    <div class="auth-card">
+        <p class="eyebrow">Join VELORA</p>
+        <h1>Create Account</h1>
+        <p class="auth-subtitle">Unlock your cart, wishlist, and personal fashion space.</p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class="auth-field">
+                <label>Username</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <div class="auth-field">
+                <label>Password</label>
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+            </div>
+
+            <div class="auth-field">
+                <label>Confirm Password</label>
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+            </div>
+
+            <button type="submit" class="auth-btn">Create Account</button>
+        </form>
+
+        <p class="auth-switch">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </p>
+    </div>
+</section>
+
+{% endblock %}

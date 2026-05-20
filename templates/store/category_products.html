@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} | VELORA{% endblock %}
+
+{% block content %}
+
+<section class="category-hero">
+    <div class="category-hero-content">
+        <p class="eyebrow">VELORA COLLECTION</p>
+        <h1>{{ category.name }}</h1>
+        <p>Explore refined pieces selected for style, comfort, and everyday confidence.</p>
+    </div>
+</section>
+
+<section class="shop-layout">
+
+    <aside class="filter-sidebar">
+        <div class="filter-heading">
+            <div>
+                <span>Curate</span>
+                <h3>Filters</h3>
+            </div>
+
+            <a href="{% url 'category_products' category.slug %}">Clear</a>
+        </div>
+
+        <form method="get" class="filter-form">
+
+            <div class="filter-group">
+                <label>
+                    {% if category.slug == 'shoes' %}
+                        Shoe Type
+                    {% elif category.slug == 'accessories' %}
+                        Accessory Type
+                    {% else %}
+                        Category Type
+                    {% endif %}
+                </label>
+
+                <select name="subcategory">
+                    <option value="">All {{ category.name }}</option>
+
+                    {% for subcategory in subcategories %}
+                        <option value="{{ subcategory.slug }}"
+                            {% if selected_subcategory == subcategory.slug %}selected{% endif %}>
+                            {{ subcategory.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {% if category.slug != 'accessories' %}
+                <div class="filter-group">
+                    <label>
+                        {% if category.slug == 'shoes' %}
+                            Shoe Size
+                        {% else %}
+                            Size
+                        {% endif %}
+                    </label>
+
+                    <select name="size">
+                        <option value="">All Sizes</option>
+
+                        {% for size in sizes %}
+                            <option value="{{ size.name }}"
+                                {% if selected_size == size.name %}selected{% endif %}>
+                                {{ size.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% endif %}
+
+            {% if category.slug == 'men' or category.slug == 'women' %}
+
+                <div class="filter-group">
+                    <label>Color</label>
+                    <select name="color">
+                        <option value="">All Colors</option>
+
+                        {% for color in colors %}
+                            <option value="{{ color }}"
+                                {% if selected_color == color %}selected{% endif %}>
+                                {{ color }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Fabric</label>
+                    <select name="fabric">
+                        <option value="">All Fabrics</option>
+
+                        {% for fabric in fabrics %}
+                            <option value="{{ fabric }}"
+                                {% if selected_fabric == fabric %}selected{% endif %}>
+                                {{ fabric }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Fit</label>
+                    <select name="fit">
+                        <option value="">All Fits</option>
+
+                        {% for fit in fits %}
+                            <option value="{{ fit }}"
+                                {% if selected_fit == fit %}selected{% endif %}>
+                                {{ fit }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Pattern</label>
+                    <select name="pattern">
+                        <option value="">All Patterns</option>
+
+                        {% for pattern in patterns %}
+                            <option value="{{ pattern }}"
+                                {% if selected_pattern == pattern %}selected{% endif %}>
+                                {{ pattern }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Occasion</label>
+                    <select name="occasion">
+                        <option value="">All Occasions</option>
+
+                        {% for occasion in occasions %}
+                            <option value="{{ occasion }}"
+                                {% if selected_occasion == occasion %}selected{% endif %}>
+                                {{ occasion }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            {% endif %}
+
+            {% if category.slug != 'accessories' %}
+                <div class="filter-group">
+                    <label>Sort By</label>
+                    <select name="sort">
+                        <option value="">Recommended</option>
+                        <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest First</option>
+                        <option value="low_to_high" {% if sort == 'low_to_high' %}selected{% endif %}>Price: Low to High</option>
+                        <option value="high_to_low" {% if sort == 'high_to_low' %}selected{% endif %}>Price: High to Low</option>
+                    </select>
+                </div>
+            {% endif %}
+
+            <button type="submit" class="filter-btn">
+                Apply Filters
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </form>
+    </aside>
+
+    <main class="products-area">
+
+        <div class="products-topbar">
+            <div>
+                <p class="eyebrow">{{ category.name }} Selection</p>
+                <h2>{{ category.name }} Products</h2>
+                <span>{{ products.count }} products found</span>
+            </div>
+        </div>
+
+        <div class="product-grid category-product-grid">
+
+    {% for product in products %}
+        {% include 'store/partials/product_card.html' with product=product %}
+    {% empty %}
+        <div class="empty-products">
+            <div class="empty-icon">
+                <i class="fa-solid fa-shirt"></i>
+            </div>
+
+            <h3>No products found</h3>
+            <p>Add products from Django admin or change your filters.</p>
+        </div>
+    {% endfor %}
+
+</div>
+
+    </main>
+
+</section>
+
+{% endblock %}

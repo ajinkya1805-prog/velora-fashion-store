@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}New In | VELORA{% endblock %}
+
+{% block content %}
+
+<section class="listing-hero new-in-hero">
+    <div>
+        <p class="eyebrow">Fresh Drops</p>
+        <h1>New In</h1>
+        <p>Discover the latest VELORA arrivals, selected for modern style and everyday confidence.</p>
+    </div>
+</section>
+
+<section class="listing-page">
+
+    <div class="listing-header">
+        <div>
+            <p class="eyebrow">Latest Collection</p>
+            <h2>New Arrivals</h2>
+            <span>{{ products.count }} product{% if products.count != 1 %}s{% endif %} found</span>
+        </div>
+    </div>
+
+    <div class="product-grid listing-product-grid">
+        {% for product in products %}
+            {% include 'store/partials/product_card.html' with product=product %}
+        {% empty %}
+            <div class="empty-products listing-empty-wrap">
+                <div class="empty-icon">
+                    <i class="fa-solid fa-shirt"></i>
+                </div>
+
+                <h3>No new arrivals yet</h3>
+                <p>Add products from Django admin and mark them as <strong>Is new arrival</strong>.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+</section>
+
+{% endblock %}

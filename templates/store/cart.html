@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cart | VELORA{% endblock %}
+
+{% block content %}
+
+<section class="cart-page">
+    <div class="cart-header">
+        <p class="eyebrow">Your Selection</p>
+        <h1>Shopping Cart</h1>
+        <p>{{ cart.total_items }} item{% if cart.total_items != 1 %}s{% endif %} in your cart</p>
+    </div>
+
+    {% if cart_items %}
+        <div class="cart-layout">
+
+            <div class="cart-items-list">
+                {% for item in cart_items %}
+                    <div class="cart-item-card">
+                        <div class="cart-item-img">
+                            <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}">
+                        </div>
+
+                        <div class="cart-item-info">
+                            <h3>{{ item.product.name }}</h3>
+
+                            <p>
+                                {% if item.variant %}
+                                    {% if item.variant.size %}
+                                        Size: {{ item.variant.size.name }}
+                                    {% endif %}
+
+                                    {% if item.variant.color %}
+                                        | Color: {{ item.variant.color }}
+                                    {% endif %}
+                                {% else %}
+                                    Standard
+                                {% endif %}
+                            </p>
+
+                            <strong>₹{{ item.product.selling_price }}</strong>
+
+                            <div class="cart-actions-row">
+                                <form method="post" action="{% url 'update_cart_item' item.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" name="action" value="decrease">-</button>
+                                    <span>{{ item.quantity }}</span>
+                                    <button type="submit" name="action" value="increase">+</button>
+                                </form>
+
+                                <a href="{% url 'remove_cart_item' item.id %}">Remove</a>
+                            </div>
+                        </div>
+
+                        <div class="cart-item-total">
+                            ₹{{ item.total_price }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <aside class="cart-summary">
+                <h2>Order Summary</h2>
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong>₹{{ cart.total_price }}</strong>
+                </div>
+
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <strong>Free</strong>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total</span>
+                    <strong>₹{{ cart.total_price }}</strong>
+                </div>
+
+                <button class="checkout-btn">
+                    Proceed to Payment
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+                <p>Payment gateway will be connected later.</p>
+            </aside>
+
+        </div>
+    {% else %}
+        <div class="empty-cart">
+            <div class="empty-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+            <h2>Your cart is empty</h2>
+            <p>Browse the collection and add something stylish.</p>
+            <a href="{% url 'home' %}">Start Shopping</a>
+        </div>
+    {% endif %}
+</section>
+
+{% endblock %}

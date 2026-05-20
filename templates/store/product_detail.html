@@ -1,0 +1,355 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} | VELORA{% endblock %}
+
+{% block content %}
+
+<section class="product-detail-page">
+
+    <div class="product-detail-grid">
+
+        <div class="product-gallery">
+
+            <div class="main-product-image">
+                <img id="mainProductImage" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+            </div>
+
+            <div class="thumb-row">
+                <button class="thumb-img active-thumb" data-image="{{ product.main_image.url }}">
+                    <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                </button>
+
+                {% for image in extra_images %}
+                    <button class="thumb-img" data-image="{{ image.image.url }}">
+                        <img src="{{ image.image.url }}" alt="{{ product.name }}">
+                    </button>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="product-info-panel">
+
+            <p class="eyebrow">{{ product.category.name }} Collection</p>
+
+            <h1>{{ product.name }}</h1>
+
+            <div class="product-meta-row">
+                {% if product.brand %}
+                    <span>{{ product.brand }}</span>
+                {% endif %}
+
+                {% if product.color %}
+                    <span>{{ product.color }}</span>
+                {% endif %}
+
+                {% if product.is_new_arrival %}
+                    <span>New Arrival</span>
+                {% endif %}
+            </div>
+
+            <div class="detail-price-row">
+                {% if product.discount_price %}
+                    <strong>₹{{ product.discount_price }}</strong>
+                    <span>₹{{ product.price }}</span>
+                {% else %}
+                    <strong>₹{{ product.price }}</strong>
+                {% endif %}
+            </div>
+
+            {% if product.short_description %}
+                <p class="short-detail-desc">{{ product.short_description }}</p>
+            {% endif %}
+
+            <div class="detail-section">
+                <h3>Select Size</h3>
+
+        <form method="post" action="{% url 'add_to_cart' product.id %}" class="cart-add-form">
+    {% csrf_token %}
+
+    <div class="detail-section">
+        <h3>Select Size</h3>
+
+        <div class="size-options">
+            {% for variant in variants %}
+                {% if variant.stock > 0 %}
+                    <label>
+                        <input type="radio" name="variant" value="{{ variant.id }}">
+                        <span>
+                            {% if variant.size %}
+                                {{ variant.size.name }}
+                            {% else %}
+                                Free Size
+                            {% endif %}
+                        </span>
+                    </label>
+                {% endif %}
+            {% empty %}
+                <p class="muted-text">No size variants added yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="quantity-box">
+        <label>Quantity</label>
+        <input type="number" name="quantity" value="1" min="1">
+    </div>
+
+    <div class="detail-actions">
+        <button type="submit" class="detail-cart-btn">
+            <i class="fa-solid fa-bag-shopping"></i>
+            Add to Cart
+        </button>
+
+        <button type="button" class="detail-wishlist-btn">
+            <i class="fa-regular fa-heart"></i>
+        </button>
+    </div>
+</form>
+
+            <div class="detail-section product-details-list">
+                <h3>Product Details</h3>
+
+                <ul>
+                    {% if product.fabric %}
+                        <li><strong>Fabric:</strong> {{ product.fabric }}</li>
+                    {% endif %}
+
+                    {% if product.fit %}
+                        <li><strong>Fit:</strong> {{ product.fit }}</li>
+                    {% endif %}
+
+                    {% if product.pattern %}
+                        <li><strong>Pattern:</strong> {{ product.pattern }}</li>
+                    {% endif %}
+
+                    {% if product.occasion %}
+                        <li><strong>Occasion:</strong> {{ product.occasion }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+
+      <form method="post" action="{% url 'add_to_cart' product.id %}" class="cart-add-form">
+    {% csrf_token %}
+
+    <div class="quantity-box">
+        <label>Quantity</label>
+        <input type="number" name="quantity" value="1" min="1">
+    </div>
+
+    <div class="detail-actions">
+        <button type="submit" class="detail-cart-btn">
+            <i class="fa-solid fa-bag-shopping"></i>
+            Add to Cart
+        </button>
+
+        <button type="button" class="detail-wishlist-btn">
+            <i class="fa-regular fa-heart"></i>
+        </button>
+    </div>
+</form>
+<form method="post" action="{% url 'toggle_wishlist' product.id %}" class="product-detail-wishlist-form">
+    {% csrf_token %}
+
+    <button type="submit" class="detail-wishlist-wide-btn {% if product.id in wishlist_product_ids %}active-detail-wishlist{% endif %}">
+        {% if product.id in wishlist_product_ids %}
+            <i class="fa-solid fa-heart"></i>
+            Remove from Wishlist
+        {% else %}
+            <i class="fa-regular fa-heart"></i>
+            Add to Wishlist
+        {% endif %}
+    </button>
+</form>
+
+            <div class="promise-grid">
+                <div>
+                    <i class="fa-solid fa-truck-fast"></i>
+                    <span>Free shipping over ₹999</span>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>7-day easy returns</span>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Secure checkout</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="product-description-section">
+    <div class="description-card">
+        <h2>Description</h2>
+
+        {% if product.description %}
+            <p>{{ product.description }}</p>
+        {% else %}
+            <p>This product is designed for everyday comfort with a refined VELORA finish.</p>
+        {% endif %}
+    </div>
+</section>
+
+<section class="reviews-section">
+    <div class="reviews-layout">
+
+        <div class="review-summary-card">
+            <p class="eyebrow">Customer Voice</p>
+            <h2>Reviews & Ratings</h2>
+
+            <div class="rating-big">
+                {% if average_rating %}
+                    <strong>{{ average_rating }}</strong>
+                    <span>/ 5</span>
+                {% else %}
+                    <strong>0</strong>
+                    <span>/ 5</span>
+                {% endif %}
+            </div>
+
+            <div class="star-row">
+                {% if average_rating %}
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= average_rating %}
+                            <i class="fa-solid fa-star"></i>
+                        {% else %}
+                            <i class="fa-regular fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                {% endif %}
+            </div>
+
+            <p>{{ review_count }} review{% if review_count != 1 %}s{% endif %}</p>
+        </div>
+
+        <div class="review-form-card">
+            <p class="eyebrow">Share Your Thought</p>
+            <h2>
+                {% if user_review %}
+                    Update Your Review
+                {% else %}
+                    Write a Review
+                {% endif %}
+            </h2>
+
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'submit_review' product.id %}" class="review-form">
+                    {% csrf_token %}
+
+                    <div class="review-field">
+                        <label>Rating</label>
+                        <select name="rating" required>
+                            <option value="">Select rating</option>
+                            <option value="5" {% if user_review and user_review.rating == 5 %}selected{% endif %}>5 Stars</option>
+                            <option value="4" {% if user_review and user_review.rating == 4 %}selected{% endif %}>4 Stars</option>
+                            <option value="3" {% if user_review and user_review.rating == 3 %}selected{% endif %}>3 Stars</option>
+                            <option value="2" {% if user_review and user_review.rating == 2 %}selected{% endif %}>2 Stars</option>
+                            <option value="1" {% if user_review and user_review.rating == 1 %}selected{% endif %}>1 Star</option>
+                        </select>
+                    </div>
+
+                    <div class="review-field">
+                        <label>Your Review</label>
+                        <textarea name="comment" rows="5" required>{% if user_review %}{{ user_review.comment }}{% endif %}</textarea>
+                    </div>
+
+                    <button type="submit" class="review-submit-btn">
+                        {% if user_review %}
+                            Update Review
+                        {% else %}
+                            Submit Review
+                        {% endif %}
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            {% else %}
+                <div class="login-review-box">
+                    <p>Please login to write a review.</p>
+                    <a href="{% url 'login' %}">Login Now</a>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="reviews-list">
+        {% for review in reviews %}
+            <div class="single-review-card">
+                <div class="review-user-avatar">
+                    {{ review.user.username|slice:":1"|upper }}
+                </div>
+
+                <div>
+                    <div class="review-top-row">
+                        <h3>{{ review.user.username }}</h3>
+
+                        <div class="small-stars">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}
+                                    <i class="fa-solid fa-star"></i>
+                                {% else %}
+                                    <i class="fa-regular fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <p>{{ review.comment }}</p>
+                    <span>{{ review.created_at|date:"d M Y" }}</span>
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-products">
+                <div class="empty-icon">
+                    <i class="fa-regular fa-star"></i>
+                </div>
+
+                <h3>No reviews yet</h3>
+                <p>Be the first to review this product.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">You May Also Like</p>
+            <h2>Related Products</h2>
+        </div>
+    </div>
+
+    <div class="product-grid">
+
+    {% for item in related_products %}
+        {% include 'store/partials/product_card.html' with product=item %}
+    {% empty %}
+        <div class="empty-products">
+            <div class="empty-icon">
+                <i class="fa-solid fa-shirt"></i>
+            </div>
+
+            <h3>No related products yet</h3>
+            <p>Add more products in the same category from Django admin.</p>
+        </div>
+    {% endfor %}
+
+</div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+db.sqlite3
+staticfiles/
+.DS_Store
+*.log
+
+# Keep media only if you want demo product images visible
+# media/

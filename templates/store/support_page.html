@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page.title }} | VELORA{% endblock %}
+
+{% block content %}
+
+<section class="support-hero">
+    <div>
+        <p class="eyebrow">{{ page.eyebrow }}</p>
+        <h1>{{ page.title }}</h1>
+        <p>{{ page.description }}</p>
+    </div>
+
+    <div class="support-hero-icon">
+        <i class="fa-solid {{ page.icon }}"></i>
+    </div>
+</section>
+
+<section class="support-page">
+
+    {% if support_type == 'contact' %}
+
+        <div class="support-layout">
+            <div class="support-card">
+                <p class="eyebrow">Write to Us</p>
+                <h2>Contact Form</h2>
+
+                <form method="post" class="support-form">
+                    {% csrf_token %}
+
+                    <div class="support-field">
+                        <label>Your Name</label>
+                        <input type="text" name="name" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="support-field">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="support-field">
+                        <label>Message</label>
+                        <textarea name="message" rows="5" placeholder="How can we help you?" required></textarea>
+                    </div>
+
+                    <button type="submit" class="support-btn">
+                        Send Message
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div class="support-card support-info-list">
+                <p class="eyebrow">Customer Care</p>
+                <h2>Support Details</h2>
+
+                <div>
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>support@velora.com</span>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-phone"></i>
+                    <span>+91 98765 43210</span>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Mon to Sat, 10 AM to 7 PM</span>
+                </div>
+            </div>
+        </div>
+
+    {% elif support_type == 'returns' %}
+
+        <div class="support-card">
+            <p class="eyebrow">Return Policy</p>
+            <h2>Simple 7-Day Returns</h2>
+
+            <div class="policy-grid">
+                <div>
+                    <h3>1. Return Window</h3>
+                    <p>You can request a return within 7 days of receiving your product.</p>
+                </div>
+
+                <div>
+                    <h3>2. Product Condition</h3>
+                    <p>Products must be unused, unwashed, and returned with original tags and packaging.</p>
+                </div>
+
+                <div>
+                    <h3>3. Exchange</h3>
+                    <p>Size exchange is available depending on stock availability.</p>
+                </div>
+
+                <div>
+                    <h3>4. Refund</h3>
+                    <p>Refunds will be processed after product inspection. Payment integration will be added later.</p>
+                </div>
+            </div>
+        </div>
+
+    {% elif support_type == 'shipping' %}
+
+        <div class="support-card">
+            <p class="eyebrow">Shipping</p>
+            <h2>Delivery Information</h2>
+
+            <div class="policy-grid">
+                <div>
+                    <h3>Standard Delivery</h3>
+                    <p>Orders are usually delivered within 4 to 7 business days.</p>
+                </div>
+
+                <div>
+                    <h3>Free Shipping</h3>
+                    <p>Free shipping is available on orders above ₹999.</p>
+                </div>
+
+                <div>
+                    <h3>Tracking</h3>
+                    <p>Order tracking will be available after we add checkout and order flow.</p>
+                </div>
+
+                <div>
+                    <h3>Service Areas</h3>
+                    <p>VELORA currently supports delivery across major Indian cities.</p>
+                </div>
+            </div>
+        </div>
+
+    {% elif support_type == 'faqs' %}
+
+        <div class="support-card">
+            <p class="eyebrow">Common Questions</p>
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-list">
+                <details open>
+                    <summary>Do I need an account to add items to cart?</summary>
+                    <p>Yes. You need to login or register before adding products to your cart or wishlist.</p>
+                </details>
+
+                <details>
+                    <summary>How do I add products?</summary>
+                    <p>Products are added from the Django admin panel using category, subcategory, images, sizes, and stock.</p>
+                </details>
+
+                <details>
+                    <summary>Is payment active?</summary>
+                    <p>No. Payment integration will be added later with checkout and order flow.</p>
+                </details>
+
+                <details>
+                    <summary>Can I save favourite products?</summary>
+                    <p>Yes. Use the heart icon to add products to your wishlist.</p>
+                </details>
+
+                <details>
+                    <summary>Can I review products?</summary>
+                    <p>Yes. Logged-in users can rate and review products from the product detail page.</p>
+                </details>
+            </div>
+        </div>
+
+    {% elif support_type == 'store-locator' %}
+
+        <div class="support-card">
+            <p class="eyebrow">Offline Experience</p>
+            <h2>VELORA Store Locator</h2>
+
+            <div class="store-locator-box">
+                <i class="fa-solid fa-location-dot"></i>
+                <h3>Stores Coming Soon</h3>
+                <p>
+                    VELORA offline store details will appear here once store locations are finalized.
+                    For now, customers can shop online through the website.
+                </p>
+            </div>
+        </div>
+
+    {% elif support_type == 'help' %}
+
+        <div class="support-card">
+            <p class="eyebrow">Help Center</p>
+            <h2>How Can We Help?</h2>
+
+            <div class="policy-grid">
+                <a href="{% url 'support_page' 'contact' %}">
+                    <h3>Contact Support</h3>
+                    <p>Need help? Send us your question.</p>
+                </a>
+
+                <a href="{% url 'support_page' 'returns' %}">
+                    <h3>Returns</h3>
+                    <p>Understand return and exchange rules.</p>
+                </a>
+
+                <a href="{% url 'support_page' 'shipping' %}">
+                    <h3>Shipping</h3>
+                    <p>Check delivery and shipping information.</p>
+                </a>
+
+                <a href="{% url 'support_page' 'faqs' %}">
+                    <h3>FAQs</h3>
+                    <p>Read common customer questions.</p>
+                </a>
+            </div>
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

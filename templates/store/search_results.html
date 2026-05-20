@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search | VELORA{% endblock %}
+
+{% block content %}
+
+<section class="search-page">
+
+    <div class="search-header">
+        <p class="eyebrow">VELORA Search</p>
+
+        {% if query %}
+            <h1>Results for “{{ query }}”</h1>
+            <p>{{ products.count }} product{% if products.count != 1 %}s{% endif %} found.</p>
+        {% else %}
+            <h1>Search Products</h1>
+            <p>Search by product name, color, brand, category, fabric, occasion, or tags.</p>
+        {% endif %}
+    </div>
+
+    {% if query %}
+        <div class="product-grid search-product-grid">
+            {% for product in products %}
+                {% include 'store/partials/product_card.html' with product=product %}
+            {% empty %}
+                <div class="empty-products">
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+
+                    <h3>No products found</h3>
+                    <p>Try searching something like black shirt, sneakers, cotton, formal, party, or men.</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-products">
+            <div class="empty-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <h3>Start searching</h3>
+            <p>Type something in the search bar above.</p>
+        </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}

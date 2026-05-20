@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sale | VELORA{% endblock %}
+
+{% block content %}
+
+<section class="listing-hero sale-hero">
+    <div>
+        <p class="eyebrow">Limited Offers</p>
+        <h1>Sale</h1>
+        <p>Explore discounted styles before they disappear from the rack.</p>
+    </div>
+</section>
+
+<section class="listing-page">
+
+    <div class="listing-header">
+        <div>
+            <p class="eyebrow">VELORA Offers</p>
+            <h2>Sale Products</h2>
+            <span>{{ products.count }} product{% if products.count != 1 %}s{% endif %} found</span>
+        </div>
+    </div>
+
+    <div class="product-grid listing-product-grid">
+        {% for product in products %}
+            {% include 'store/partials/product_card.html' with product=product %}
+        {% empty %}
+            <div class="empty-products listing-empty-wrap">
+                <div class="empty-icon">
+                    <i class="fa-solid fa-tags"></i>
+                </div>
+
+                <h3>No sale products yet</h3>
+                <p>Add products from Django admin and give them a <strong>discount price</strong>.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+</section>
+
+{% endblock %}

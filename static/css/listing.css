@@ -1,0 +1,130 @@
+/* ================================
+   VELORA LISTING PAGES
+   New In + Sale
+================================ */
+
+.listing-hero {
+    min-height: 340px;
+    padding: 85px 7%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.listing-hero::before {
+    content: "";
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    right: -80px;
+    top: -90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,149,107,0.25), transparent 68%);
+}
+
+.listing-hero > div {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+}
+
+.listing-hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 82px;
+    line-height: 0.95;
+    margin-bottom: 16px;
+    color: #111;
+}
+
+.listing-hero p:not(.eyebrow) {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 580px;
+}
+
+.new-in-hero {
+    background:
+        radial-gradient(circle at 82% 22%, rgba(184,149,107,0.24), transparent 32%),
+        linear-gradient(120deg, #f7f0e8, #ffffff 52%, #eadfd2);
+}
+
+.sale-hero {
+    background:
+        radial-gradient(circle at 82% 20%, rgba(255,255,255,0.16), transparent 32%),
+        linear-gradient(120deg, #111111, #4b3728 52%, #b8956b);
+}
+
+.sale-hero h1 {
+    color: #ffffff;
+}
+
+.sale-hero p:not(.eyebrow) {
+    color: rgba(255,255,255,0.78);
+}
+
+.sale-hero .eyebrow {
+    color: #ead8c1;
+}
+
+.listing-page {
+    padding: 50px 7% 85px;
+    background: #f7f3ef;
+    min-height: 620px;
+}
+
+.listing-header {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(184,149,107,0.16);
+    border-radius: 30px;
+    padding: 28px 30px;
+    margin-bottom: 32px;
+    box-shadow: 0 22px 60px rgba(0,0,0,0.07);
+}
+
+.listing-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 46px;
+    line-height: 1;
+    margin-bottom: 8px;
+    color: #111;
+}
+
+.listing-header span {
+    color: #777;
+    font-size: 13px;
+}
+
+.listing-product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.listing-empty-wrap {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 1050px) {
+    .listing-product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 650px) {
+    .listing-hero {
+        min-height: 250px;
+        padding: 55px 5%;
+    }
+
+    .listing-hero h1 {
+        font-size: 54px;
+    }
+
+    .listing-page {
+        padding: 35px 5% 65px;
+    }
+
+    .listing-product-grid {
+        grid-template-columns: 1fr;
+    }
+}

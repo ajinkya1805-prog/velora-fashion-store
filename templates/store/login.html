@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login | VELORA{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+    <div class="auth-card">
+        <p class="eyebrow">Welcome Back</p>
+        <h1>Login</h1>
+        <p class="auth-subtitle">Continue your VELORA shopping experience.</p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class="auth-field">
+                <label>Username</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <div class="auth-field">
+                <label>Password</label>
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
+
+            <button type="submit" class="auth-btn">Login</button>
+        </form>
+
+        <p class="auth-switch">
+            New to VELORA?
+            <a href="{% url 'register' %}">Create account</a>
+        </p>
+    </div>
+</section>
+
+{% endblock %}

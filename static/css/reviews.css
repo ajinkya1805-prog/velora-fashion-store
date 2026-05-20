@@ -1,0 +1,227 @@
+/* ================================
+   VELORA REVIEWS
+================================ */
+
+.reviews-section {
+    padding: 30px 7% 70px;
+    background: #f7f3ef;
+}
+
+.reviews-layout {
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+    margin-bottom: 34px;
+}
+
+.review-summary-card,
+.review-form-card,
+.single-review-card {
+    background: rgba(255,255,255,0.96);
+    border: 1px solid rgba(184,149,107,0.16);
+    border-radius: 32px;
+    padding: 30px;
+    box-shadow: 0 24px 65px rgba(0,0,0,0.07);
+}
+
+.review-summary-card h2,
+.review-form-card h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    line-height: 1;
+    margin-bottom: 18px;
+}
+
+.rating-big {
+    display: flex;
+    align-items: end;
+    gap: 8px;
+    margin: 18px 0 8px;
+}
+
+.rating-big strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 76px;
+    line-height: 0.9;
+}
+
+.rating-big span {
+    font-weight: 800;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.star-row,
+.small-stars {
+    color: #b8956b;
+}
+
+.star-row {
+    font-size: 22px;
+    display: flex;
+    gap: 5px;
+    margin-bottom: 12px;
+}
+
+.review-summary-card p:not(.eyebrow) {
+    color: #777;
+    font-size: 13px;
+}
+
+.review-form {
+    display: grid;
+    gap: 18px;
+}
+
+.review-field {
+    display: grid;
+    gap: 8px;
+}
+
+.review-field label {
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.review-field select,
+.review-field textarea {
+    width: 100%;
+    border: 1px solid #e4d6c8;
+    border-radius: 18px;
+    background: #fffaf5;
+    padding: 14px;
+    outline: none;
+    font-family: 'Sora', sans-serif;
+    transition: 0.35s ease;
+}
+
+.review-field select {
+    height: 50px;
+}
+
+.review-field textarea {
+    resize: vertical;
+    min-height: 130px;
+}
+
+.review-field select:focus,
+.review-field textarea:focus {
+    border-color: #b8956b;
+    background: white;
+    box-shadow: 0 14px 34px rgba(184,149,107,0.2);
+}
+
+.review-submit-btn,
+.login-review-box a {
+    width: fit-content;
+    height: 50px;
+    padding: 0 22px;
+    border: none;
+    border-radius: 999px;
+    background: #080808;
+    color: white;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.35s ease;
+}
+
+.review-submit-btn:hover,
+.login-review-box a:hover {
+    background: #8b6f52;
+    transform: translateY(-4px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.2);
+}
+
+.login-review-box {
+    background: #fffaf5;
+    border: 1px solid #eadfd2;
+    border-radius: 22px;
+    padding: 22px;
+}
+
+.login-review-box p {
+    color: #666;
+    margin-bottom: 16px;
+}
+
+.reviews-list {
+    display: grid;
+    gap: 16px;
+}
+
+.single-review-card {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.review-user-avatar {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #111;
+    color: white;
+    display: grid;
+    place-items: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.review-top-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.review-top-row h3 {
+    font-size: 16px;
+}
+
+.small-stars {
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.single-review-card p {
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.single-review-card span {
+    color: #999;
+    font-size: 12px;
+}
+
+@media (max-width: 900px) {
+    .reviews-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .reviews-section {
+        padding: 25px 5% 60px;
+    }
+
+    .review-top-row {
+        display: block;
+    }
+
+    .small-stars {
+        margin-top: 6px;
+    }
+}

@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page.title }} | VELORA Admin{% endblock %}
+
+{% block content %}
+
+<section class="admin-data-page">
+
+    <div class="admin-data-hero">
+        <div>
+            <p class="eyebrow">{{ page.eyebrow }}</p>
+            <h1>{{ page.title }}</h1>
+            <p>{{ page.description }}</p>
+        </div>
+
+        <div class="admin-data-icon">
+            <i class="fa-solid {{ page.icon }}"></i>
+        </div>
+    </div>
+
+    <div class="admin-data-shell">
+
+        <div class="admin-data-topbar">
+            <div>
+                <p class="eyebrow">Dashboard Data</p>
+                <h2>{{ page.title }}</h2>
+                <span>{{ objects.count }} record{% if objects.count != 1 %}s{% endif %} found</span>
+            </div>
+
+            <a href="{% url 'admin_dashboard' %}" class="admin-back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+
+        <div class="admin-data-table-card">
+
+            {% if section == 'users' %}
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Staff</th>
+                            <th>Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in objects %}
+                            <tr>
+                                <td>{{ item.username }}</td>
+                                <td>{{ item.email|default:"-" }}</td>
+                                <td>{{ item.first_name }} {{ item.last_name }}</td>
+                                <td>{% if item.is_staff %}Yes{% else %}No{% endif %}</td>
+                                <td>{{ item.date_joined|date:"d M Y" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="5">No users found.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            {% elif section == 'products' %}
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Subcategory</th>
+                            <th>Price</th>
+                            <th>Sale Price</th>
+                            <th>Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in objects %}
+                            <tr>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.category.name }}</td>
+                                <td>{% if item.subcategory %}{{ item.subcategory.name }}{% else %}-{% endif %}</td>
+                                <td>₹{{ item.price }}</td>
+                                <td>{% if item.discount_price %}₹{{ item.discount_price }}{% else %}-{% endif %}</td>
+                                <td>{% if item.is_active %}Yes{% else %}No{% endif %}</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="6">No products found.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            {% elif section == 'categories' %}
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Slug</th>
+                            <th>Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in objects %}
+                            <tr>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.slug }}</td>
+                                <td>{% if item.is_active %}Yes{% else %}No{% endif %}</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="3">No categories found.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            {% elif section == 'stock' %}
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Size</th>
+                            <th>Color</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in objects %}
+                            <tr>
+                                <td>{{ item.product.name }}</td>
+                                <td>{% if item.size %}{{ item.size.name }}{% else %}-{% endif %}</td>
+                                <td>{{ item.color|default:"-" }}</td>
+                                <td>{{ item.stock }}</td>
+                                <td>
+                                    {% if item.stock == 0 %}
+                                        <span class="danger-pill">Out of Stock</span>
+                                    {% elif item.stock <= 5 %}
+                                        <span class="warning-pill">Low Stock</span>
+                                    {% else %}
+                                        <span class="success-pill">In Stock</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="5">No stock variants found.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            {% elif section == 'carts' %}
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Total Items</th>
+                            <th>Total Price</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in objects %}
+                            <tr>
+                                <td>{{ item.user.username }}</td>
+                                <td>{{ item.total_items }}</td>
+                                <td>₹{{ item.total_price }}</td>
+                                <td>{{ item.created_at|date:"d M Y" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="4">No carts found.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            {% elif section == 'cart-items' %}
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Product</th>
+                            <th>Variant</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in objects %}
+                            <tr>
+                                <td>{{ item.cart.user.username }}</td>
+                                <td>{{ item.product.name }}</td>
+                                <td>
+                                    {% if item.variant %}
+                                        {% if item.variant.size %}{{ item.variant.size.name }}{% endif %}
+                                        {% if item.variant.color %} / {{ item.variant.color }}{% endif %}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>{{ item.quantity }}</td>
+                                <td>₹{{ item.total_price }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="5">No cart items found.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            {% elif section == 'wishlist' %}
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Product</th>
+                            <th>Saved On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in objects %}
+                            <tr>
+                                <td>{{ item.user.username }}</td>
+                                <td>{{ item.product.name }}</td>
+                                <td>{{ item.created_at|date:"d M Y" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="3">No wishlist items found.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            {% elif section == 'reviews' %}
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Product</th>
+                            <th>Rating</th>
+                            <th>Review</th>
+                            <th>Approved</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in objects %}
+                            <tr>
+                                <td>{{ item.user.username }}</td>
+                                <td>{{ item.product.name }}</td>
+                                <td>{{ item.rating }} / 5</td>
+                                <td>{{ item.comment|truncatechars:80 }}</td>
+                                <td>{% if item.is_approved %}Yes{% else %}No{% endif %}</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="5">No reviews found.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

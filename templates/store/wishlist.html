@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wishlist | VELORA{% endblock %}
+
+{% block content %}
+
+<section class="wishlist-page">
+
+    <div class="wishlist-header">
+        <p class="eyebrow">Saved Styles</p>
+        <h1>Your Wishlist</h1>
+        <p>{{ wishlist_items.count }} item{% if wishlist_items.count != 1 %}s{% endif %} saved for later.</p>
+    </div>
+
+    {% if wishlist_items %}
+        <div class="product-grid wishlist-grid">
+            {% for item in wishlist_items %}
+                <div class="product-card product-card-shell">
+
+                    <a href="{% url 'remove_wishlist_item' item.product.id %}" class="wishlist-remove-btn">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+
+                    <a href="{% url 'product_detail' item.product.slug %}" class="product-card-link">
+                        <div class="product-image real-product-img">
+                            <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}">
+                        </div>
+
+                        <h3>{{ item.product.name }}</h3>
+
+                        <p>
+                            {% if item.product.brand %}
+                                {{ item.product.brand }}
+                            {% else %}
+                                {{ item.product.category.name }}
+                            {% endif %}
+                        </p>
+
+                        <div class="price-row">
+                            {% if item.product.discount_price %}
+                                <strong>₹{{ item.product.discount_price }}</strong>
+                                <span>₹{{ item.product.price }}</span>
+                            {% else %}
+                                <strong>₹{{ item.product.price }}</strong>
+                            {% endif %}
+                        </div>
+                    </a>
+
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-wishlist">
+            <div class="empty-icon">
+                <i class="fa-regular fa-heart"></i>
+            </div>
+
+            <h2>Your wishlist is empty</h2>
+            <p>Save your favourite styles and find them here later.</p>
+
+            <a href="{% url 'home' %}">Explore Collection</a>
+        </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}
